@@ -15,12 +15,12 @@ public:
         if (msgString == "")
             msgString = "Unspecified exception";
     }
-    
+
     string what() const
     {
         return msgString;
     }
-    
+
     // protected allows a derived class to access msgString.
     // chapter 13 discusses protected in detail
 protected:
@@ -54,7 +54,7 @@ public:
     {
         char indexString[80];
         ostrstream indexErr(indexString, 80);
-        
+
         indexErr << msg << "  index " << i << "  size = " << size << ends;
         // indexRangeError can modify msgString, since it is in
         // the protected section of baseException
@@ -116,7 +116,7 @@ public:
     {
         char dateStr[80];
         ostrstream dateErr(dateStr, 80);
-        
+
         dateErr << first << ' ' << v << ' ' << last << ends;
         // dateError can modify msgString, since it is in
         // the protected section of baseException
@@ -142,7 +142,7 @@ public:
     {
         char errorStr[80];
         ostrstream fileErr(errorStr, 80);
-        
+
         fileErr << "Cannot open \"" << fname << "\"" << ends;
         // fileOpenError can modify msgString, since it is in
         // the protected section of baseException

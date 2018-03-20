@@ -40,12 +40,13 @@ public:
                    Graph g);
     int numRows(){return rows;};
     int numCols(){return cols;};
-    
+
 private:
     int rows; // number of rows in the maze
     int cols; // number of columns in the maze12 a
-    
+
     matrix<bool> value;
+    matrix<Graph:: vertex_descriptor> graphM;//  matrix for vertex descriptors
 };
 
 

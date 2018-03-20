@@ -24,21 +24,21 @@ struct EdgeProperties;
 
 typedef adjacency_list<vecS, vecS, bidirectionalS, VertexProperties, EdgeProperties> Graph;
 
-struct VertexProperties
+struct VertexProperties // properties associated with a node
 {
     pair<int,int> cell; // maze cell (x,y) value
     Graph::vertex_descriptor pred; // predecessor node
-    int weight;
-    bool visited;
-    bool marked;
+    int weight;// weight
+    bool visited;// has it been visited.True= it was, false= it was not
+    bool marked;// marked or not. Part of the path or not
 };
 
 // Create a struct to hold properties for each edge
 struct EdgeProperties
 {
-    int weight;
-    bool visited;
-    bool marked;
+    int weight;// cost for this edge
+    bool visited;// true=it was, false=it was not
+    bool marked;// part of the path
 };
 
 typedef adjacency_list<vecS, vecS, bidirectionalS, VertexProperties, EdgeProperties> Graph;
@@ -60,25 +60,25 @@ int main()
     try
     {
         ifstream fin;
-        
+
         // Read the maze from the file.
         string fileName = "yourpath/maze1.txt";
-        
+
         fin.open(fileName.c_str());
         if (!fin)
         {
             cerr << "Cannot open " << fileName << endl;
             exit(1);
         }
-        
+
         maze m(fin);
         fin.close();
-        
-        m.print(m.numRows()-1,m.numCols()-1,0,0);
-        
+
+        m.print(m.numRows()-1,m.numCols()-1,0,0);// prints the graph
+
         Graph g;
-        m.mapMazeToGraph(g);
-        
-        cout << g << endl;
+        m.mapMazeToGraph(g);// fucntion call
+
+        cout << g << endl;// calls overloaded operator
     }
 }
