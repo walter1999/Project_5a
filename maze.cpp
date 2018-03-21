@@ -21,7 +21,7 @@ maze::maze(ifstream &fin)
 // number of rows and columns indicated in the file are correct.
 {
     fin >> rows; // reads rows from file
-    fin >> cols; // reads cols from file
+    fin >> cols; // reads cols from
 
     char x; // variable to hodl values
 
@@ -83,7 +83,7 @@ bool maze::isLegal(int i, int j)
 void maze::mapMazeToGraph(Graph &g){
 // Create a graph g that represents the legal moves in the maze m.
 //iterate through the matrix of the maze and checks if its true or false
-Graph:: vertex_descriptor Dr;// creates a descriptor for a node 
+Graph:: vertex_descriptor Dr;// creates a descriptor for a node
 graphM.resize(rows,cols);
 for(r = 0; r<rows;r++){
   for(c = 0; c<cols ; c++){
@@ -198,15 +198,14 @@ for(edgePair= edges(g); edgePair.first != edgePair.second; ++edgePair.first){
       }
       if(g[*vertexPair.first].visited){
       ostr<< "true";
-    }
+      }
       else{
       ostr<< "false"
-    }
-      return ostr;
+      }
 
 
-    }
+  }
 
-
+  return ostr;
 
 }
