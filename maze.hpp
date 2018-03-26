@@ -22,7 +22,7 @@
 #include <stack>
 
 #include "d_except.h"
-#include "d_matrix.h"
+#include "matrix.h"
 
 #define LargeValue 99999999
 
@@ -35,6 +35,8 @@ public:
     void print(int,int,int,int);
     bool isLegal(int i, int j);
     void mapMazeToGraph(Graph &g);
+    void findPathDFSRecursive(Graph &g);
+    void findPathDFSStack(Graph &g);
     void printPath(Graph::vertex_descriptor end,
                    stack<Graph::vertex_descriptor> &s,
                    Graph g);
@@ -44,6 +46,8 @@ public:
 private:
     int rows; // number of rows in the maze
     int cols; // number of columns in the maze12 a
+
+    stack<Graph::vertex_descriptor> DFS;
 
     matrix<bool> value;
     matrix<Graph:: vertex_descriptor> graphM;//  matrix for vertex descriptors

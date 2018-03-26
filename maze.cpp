@@ -15,13 +15,13 @@
 #include <vector>
 #include <stack>
 #include "d_except.h"
-#include "d_matrix.h"
+#include "matrix.h"
 maze::maze(ifstream &fin)
 // Initializes a maze by reading values from fin.  Assumes that the
 // number of rows and columns indicated in the file are correct.
 {
     fin >> rows; // reads rows from file
-    fin >> cols; // reads cols from
+    fin >> cols; // reads cols from file
 
     char x; // variable to hodl values
 
@@ -128,7 +128,7 @@ for(r = 0; r<rows;r++){
 // marked evrything as false and zero weight
 clearVisited(g);
 clearMarked(g);
- setNodeWeights(g,0);
+setNodeWeights(g,0);
 
 
 
@@ -146,7 +146,7 @@ void maze::printPath(Graph::vertex_descriptor end,
 
 void clearVisited(Graph &g){
 // Mark all nodes in g as not visited.
-typedef boost:: graph_traits<Graph>::vertx_iterator vertex_iter;
+typedef boost:: graph_traits<Graph>::vertex_iterator vertex_iter;
 std::pair<vertex_iter, vertex_iter> vertexPair;
 for(vertexPair=vertices(g); vertexPair.first != vertexPair.second; ++vertexPair.first)
   g[*vertexPair.first].visited=false;
@@ -161,7 +161,7 @@ void setNodeWeights(Graph &g, int w){
 
 void clearMarked(Graph &g){
 // Unmark all nodes.
-typedef boost:: graph_traits<Graph>::vertx_iterator vertex_iter;
+typedef boost:: graph_traits<Graph>::vertex_iterator vertex_iter;
 std::pair<vertex_iter, vertex_iter> vertexPair;
 for(vertexPair=vertices(g); vertexPair.first != vertexPair.second; ++vertexPair.first)
   g[*vertexPair.first].marked=false;
@@ -185,7 +185,7 @@ for(edgePair= edges(g); edgePair.first != edgePair.second; ++edgePair.first){
       else
         ostr<< "false";
 }
-    typedef boost:: graph_traits<Graph>::vertx_iterator vertex_iter;
+    typedef boost:: graph_traits<Graph>::vertex_iterator vertex_iter;
     std::pair<vertex_iter, vertex_iter> vertexPair;
     //Traverse every node and cout their properties
     for(vertexPair=vertices(g); vertexPair.first != vertexPair.second; ++vertexPair.first){
@@ -198,14 +198,49 @@ for(edgePair= edges(g); edgePair.first != edgePair.second; ++edgePair.first){
       }
       if(g[*vertexPair.first].visited){
       ostr<< "true";
-      }
+    }
       else{
       ostr<< "false"
+    }
+
+
+    }
+  return ostr;
+
+
+}
+
+void maze::findPathDFSStack(Graph &g){
+  Graph:: vertex_descriptor Dr;
+  typedef boost::graph_traits < Graph >::adjacency_iterator adjacency_iterator;
+  clearMarked(g);// mark all nodes as not visited
+  typedef boost:: graph_traits<Graph>::vertex_iterator vertex_iter;
+  std::pair<vertex_iter, vertex_iter> vertexPair;
+  for(vertexPair=vertices(g); vertexPair.first != vertexPair.second; ++vertexPair.first)
+    if (!g[*vertexPair.first].visited){
+      DFS.push(*vertexPair.first);
+      while(!DFS.empty()){
+        Dr= DFS.pop();
+        if(!g[Dr].visited){
+          //visit(DR)
+          g[Dr].visted= true;
+          std::pair<adjacency_iterator, adjacency_iterator> neighbors =
+          boost::adjacent_vertices(vertex(Dr,g), g);
+          for(; neighbors.first != neighbors.second; ++neighbors.first)
+          {
+            if(!g[*neighbors.first].visited){
+              DFS.push(*neighbors.first);
+            }
+          }
+
+        }
+
+
+
       }
-
-
+    }
   }
 
-  return ostr;
+
 
 }

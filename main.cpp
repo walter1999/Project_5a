@@ -16,6 +16,8 @@
 
 #include <boost/graph/adjacency_list.hpp>
 
+#include "maze.hpp"
+
 using namespace boost;
 using namespace std;
 
