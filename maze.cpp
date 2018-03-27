@@ -210,26 +210,25 @@ for(edgePair= edges(g); edgePair.first != edgePair.second; ++edgePair.first){
 
 }
 
-void maze::findPathDFSStack(Graph &g){
-  Graph:: vertex_descriptor Dr;
-  typedef boost::graph_traits < Graph >::adjacency_iterator adjacency_iterator;
-  clearMarked(g);// mark all nodes as not visited
-  typedef boost:: graph_traits<Graph>::vertex_iterator vertex_iter;
-  std::pair<vertex_iter, vertex_iter> vertexPair;
-  for(vertexPair=vertices(g); vertexPair.first != vertexPair.second; ++vertexPair.first)
-    if (!g[*vertexPair.first].visited){
-      DFS.push(*vertexPair.first);
-      while(!DFS.empty()){
+void maze::findPathDFSStack(Graph &g){// passes down the graph by reference and finds a path using DFS
+    Graph:: vertex_descriptor Dr;
+    Graph:: vertex_descriptor first;
+    first= graphM[0][0];
+
+    if (!g[first].visited){// checks if the first node has been visited
+      DFS.push(first);// pushes it into the stack
+      while(!DFS.empty()){// checks if the stack is empty
         Dr= DFS.pop();
         if(!g[Dr].visited){
           //visit(DR)
           g[Dr].visted= true;
           std::pair<adjacency_iterator, adjacency_iterator> neighbors =
           boost::adjacent_vertices(vertex(Dr,g), g);
-          for(neighbors.first != neighbors.second; ++neighbors.first)
+          for(neighbors.first != neighbors.second; ++neighbors.first)// loop that checks the neighbors around vertex Dr
           {
             if(!g[*neighbors.first].visited){
               DFS.push(*neighbors.first);
+              g[*neighbors.first].predecessor=Dr;// sets the predecessor to the parent node
             }
           }
 
@@ -240,7 +239,72 @@ void maze::findPathDFSStack(Graph &g){
       }
     }
   }
+void maze::findShortestPathBFS(Graph &g){
+  clearVisited(g);
+  Graph:: vertex_descriptor Dr;
+  Graph:: vertex_descriptor first;
+  Graph:: vertex_descriptor last;
+  Graph:: vertex_descriptor previous;
+  first= graphM[0][0];
 
+  if (!g[first].visited){// checks to see if first vertex has been visited
+    BFS.enqueue(first);// adds it to the que
+    while(!DFS.empty()){// while the q is not empty
+      Dr= DFS.dequeue();
+      if(!g[Dr].visited){
+        //visit(DR)
+        g[Dr].visted= true;
+      //  g[Dr].predecessor=
+        std::pair<adjacency_iterator, adjacency_iterator> neighbors =
+        boost::adjacent_vertices(vertex(Dr,g), g);
+        for(neighbors.first != neighbors.second; ++neighbors.first)// loop that checks the neighbors
+        {
+          if(!g[*neighbors.first].visited){
+            DFS.enqueue(*neighbors.first);
+            g[*neighbors.first].predecessor=Dr;
+          }
+        }
+
+      }
+      /*last= graphM[rows-1][columns-1];
+      BFshortestPath.push(last);
+      previous=g[last].predecessor
+      BFshortestPath.push(previous);
+      while(g[previous].predecessor != NIL){// loop that goes from the end to the beginning using the predecessor
+        previous= g[previous].predecessor;
+        BFshortestPath.push(previous);
+
+
+      }*/
+    }
+  }
+
+
+
+
+
+
+
+
+
+}
+void maze::findPathDFSRecursive(Graph &g,Graph::vertex_descriptor start, Graph::vertex_descriptor goal){
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+}
 void maze::findPath(int const &startNode, int const &endNode, int* &parent){
       if( startNode == endNode || endNode == -1){
           printf("%d\n", startNode);

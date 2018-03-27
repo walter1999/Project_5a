@@ -1,6 +1,6 @@
 //
 //  matrix.h
-//  
+//
 //
 //  Created by Thomas Campion on 2/12/18.
 //
@@ -31,26 +31,26 @@ public:
     // Postcondition: if the operator is used on the left-hand
     // side of an assignment statement, an element of row i
     // is changed
-    
+
     matrix<T> &operator=(matrix<T> m);
-    
+
     const vector<T>& operator[](int i) const;
     // version for constant objects
-    
+
     int rows() const;
     // return number of rows
     int cols() const;
     // return number of columns
-    
+
     void resize(int numRows, int numCols);
     // modify the matrix size.
     // Postcondition: the matrix has size numRows x numCols.
     // any new elements are filled with the default value of type T
-    
+
 private:
     int nRows, nCols;
     // number of rows and columns
-    
+
     vector<vector<T> > mat;
     // matrix is implemented as nRows vectors (rows),
     // each having nCols elements (columns)
@@ -70,7 +70,7 @@ vector<T>& matrix<T>::operator[] (int i)
     if (i < 0 || i >= nRows)
         throw indexRangeError(
                               "matrix: invalid row index", i, nRows);
-    
+
     return mat[i];
 }
 
@@ -82,7 +82,7 @@ const vector<T>& matrix<T>::operator[] (int i) const
     if (i < 0 || i >= nRows)
         throw indexRangeError(
                               "matrix: invalid row index", i, nRows);
-    
+
     return mat[i];
 }
 
@@ -92,7 +92,7 @@ matrix<T> &matrix<T>::operator=(matrix<T> m)
     for (int i = 0; i < rows(); i++)
         for (int j = 0; j < cols(); j++)
             (*this)[i][j] = m[i][j];
-    
+
     return *this;
 }
 
@@ -112,18 +112,18 @@ template <typename T>
 void matrix<T>::resize(int numRows, int numCols)
 {
     int i;
-    
+
     // handle case of no size change with a return
     if (numRows == nRows && numCols == nCols)
         return;
-    
+
     // assign the new matrix size
     nRows = numRows;
     nCols = numCols;
-    
+
     // resize to nRows rows
     mat.resize(nRows);
-    
+
     // resize each row to have nCols columns
     for (i=0; i < nRows; i++)
         mat[i].resize(nCols);

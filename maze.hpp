@@ -37,7 +37,7 @@ public:
     void findShortestPathBFS(Graph &g);
     void findPathInList(int const &startNode, int const &endNode, int* &parent);
     void mapMazeToGraph(Graph &g);
-    void findPathDFSRecursive(Graph &g);
+    void findPathDFSRecursive(Graph &g,Graph::vertex_descriptor start, Graph::vertex_descriptor goal );
     void findPathDFSStack(Graph &g);
     void printPath(Graph::vertex_descriptor end,
                    stack<Graph::vertex_descriptor> &s,
@@ -50,6 +50,9 @@ private:
     int cols; // number of columns in the maze12 a
 
     stack<Graph::vertex_descriptor> DFS;
+    stack<Graph::vertex_descriptor> moves;
+    stack<Graph:: vertex_descriptor> BFshortestPath;
+    queue<Graph::vertex_descriptor> BFS;
 
     matrix<bool> value;
     matrix<Graph:: vertex_descriptor> graphM;//  matrix for vertex descriptors
