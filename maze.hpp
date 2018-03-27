@@ -34,6 +34,8 @@ public:
     maze(ifstream &fin);
     void print(int,int,int,int);
     bool isLegal(int i, int j);
+    void findShortestPathBFS(Graph &g);
+    void findPathInList(int const &startNode, int const &endNode, int* &parent);
     void mapMazeToGraph(Graph &g);
     void findPathDFSRecursive(Graph &g);
     void findPathDFSStack(Graph &g);

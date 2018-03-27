@@ -226,7 +226,7 @@ void maze::findPathDFSStack(Graph &g){
           g[Dr].visted= true;
           std::pair<adjacency_iterator, adjacency_iterator> neighbors =
           boost::adjacent_vertices(vertex(Dr,g), g);
-          for(; neighbors.first != neighbors.second; ++neighbors.first)
+          for(neighbors.first != neighbors.second; ++neighbors.first)
           {
             if(!g[*neighbors.first].visited){
               DFS.push(*neighbors.first);
@@ -241,6 +241,76 @@ void maze::findPathDFSStack(Graph &g){
     }
   }
 
+void maze::findPath(int const &startNode, int const &endNode, int* &parent){
+      if( startNode == endNode || endNode == -1){
+          printf("%d\n", startNode);
+      }
+      else{
+          findPath(startNode, parent[endNode], parent);
+          printf("%d\n", endNode);
+      }
+  }
+
+void maze::findShortestPathBFS(Graph &g){
+
+
+      int *dist = new int[V];
+      int *parent = new int[V];
+
+      for(int v = 0; v < V; ++v){
+          dist[v] = INF;
+          parent[v] = -1;
+      }
+
+      dist[s] = 0;
+      queue<int> Q;
+      Q.push( s );
+
+
+      while( !Q.empty() ){
+          int u = Q.front();
+          Q.pop();
+
+          cout << u << " ";
+
+          list<int>::iterator it;
+          for(it = adjList[u].begin(); it != adjList[u].end(); ++it){
+              if( dist[*it] == INF ){
+                  Q.push(*it);
+                  dist[*it] = dist[u] + 1;
+                  parent[*it] = u;
+              }
+          }
+      }
+
+
+      // Print all the reachable nodes with distance from current nodes.
+      printf("\n");
+      for(int v = 0; v < V; ++v){
+          if(dist[v] != INF){
+              printf("%d -> %d: %d\n", s, v, dist[v]);
+          }else{
+              printf("%d -> %d: No Path\n", s, v);
+          }
+      }
+
+
+      // Print the parent array.
+      for(int v = 0; v < V; ++v){
+          printf("parent of %d: %d\n", v, parent[v]);
+      }
+
+
+      // Try to find the shortest path from current node to another.
+      // This can be modified based on need. Return the vector or
+      // array from here to main in order to call function from there.
+      int node;
+      printf("Find shortest path from node %d to another:\n", s);
+      cin >> node;
+      if( dist[node] != INF )
+          findPath(s, node, parent);
+      else
+          printf("No paths available");
 
 
 }
