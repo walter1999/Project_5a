@@ -42,6 +42,8 @@ public:
     void printPath(Graph::vertex_descriptor end,
                    stack<Graph::vertex_descriptor> &s,
                    Graph g);
+    void relax(Graph &g, Grpah::vertex_descriptor u, vertex_descriptor v);
+    void dijkstra(Graph &g, Graph::vertex_descriptor s);
     int numRows(){return rows;};
     int numCols(){return cols;};
 
