@@ -175,12 +175,12 @@ std:: pair<edge_iter, edge_iter> edgePair;
 // Traverse all the edges and cout their properties
 for(edgePair= edges(g); edgePair.first != edgePair.second; ++edgePair.first){
 
-      ostr<< g[*edgepair.first].weight;
-      if(g[*edgepair.first].marked)
+      ostr<< g[*edgePair.first].weight;
+      if(g[*edgePair.first].marked)
         ostr<< " True";
       else
         ostr<< "False";
-      if(g[*edgepair.first].visited;)
+      if(g[*edgePair.first].visited;)
       ostr<< "True";
       else
         ostr<< "false";
