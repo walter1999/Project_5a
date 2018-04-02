@@ -154,6 +154,7 @@ for(vertexPair=vertices(g); vertexPair.first != vertexPair.second; ++vertexPair.
 void setNodeWeights(Graph &g, int w){
 // Set all node weights to w.
     typedef boost:: graph_traits<Graph>::edge_iterator edge_iter;
+    std::pair<edge_iter, edge_iter> edgePair;
     for(edgePair= edges(g); edgePair.first != edgePair.second; ++edgePair.first){
       g[*edgepair.first].weight=w;
     }
@@ -304,7 +305,7 @@ void maze::findPathDFSRecursive(Graph &g,Graph::vertex_descriptor start, Graph::
 
 
 
-}
+
 void maze::findPath(int const &startNode, int const &endNode, int* &parent){
       if( startNode == endNode || endNode == -1){
           printf("%d\n", startNode);
@@ -376,5 +377,63 @@ void maze::findShortestPathBFS(Graph &g){
       else
           printf("No paths available");
 
+
+}
+void maze::relax(Graph &g, Graph::vertex_descriptor u, Graph::vertex_descriptor v){
+  std::pair<Graph::edge_descriptor, bool> retrievedEdge = boost::edge(u, v, g);
+  if(g[v].weight > g[u].weight + g[retrieveEdge.first].weight ){
+    g[v].weight=g[u].weight + g[retrieveEdge.first].weight;
+    g[v].predecessor= u;
+  }
+}
+void maze::initializeGraph(Graph &g, Graph::vertex_descriptor &start, Graph::vertex_descriptor &end, ifstream &fin){
+   EdgeProperties e;
+
+   int n, i, j;
+   int startId, endId;
+   fin >> n;
+   fin >> startId >> endId;
+   Graph::vertex_descriptor v;
+
+   // Add nodes.
+   for (int i = 0; i < n; i++)
+   {
+      v = add_vertex(g);
+      if (i == startId)
+	 start = v;
+      if (i == endId)
+	 end = v;
+   }
+
+   while (fin.peek() != '.')
+   {
+      fin >> i >> j >> e.weight;
+      add_edge(i,j,e,g);
+   }
+}
+bool maze::dijkstra(Graph &g, Graph::vertex_descriptor s){
+
+}
+bool maze::bellmanFord(Graph &g, Graph::vertex_descriptor s){
+// initilaize distances to infinity except for the source 
+typedef boost::graph_traits<Graph>::vertex_iterator vertex_iter;
+std::pair<vertex_iter, vertex_iter> vertexPair;
+for(vertexPair=vertices(g); vertexPair.first != vertexPair.second; ++vertexPair.first)
+  g[*vertexPair.first].weight=9999999;
+  g[*vertexPair.first].predecessor= NIL; 
+  
+}
+g[s].weight= 0;// sets weight of the source to zero
+
+// loop from 1 to int get vertice-1
+typedef boost:: graph_traits<Graph>::edge_iterator edge_iter;
+    std::pair<edge_iter, edge_iter> edgePair;
+for(int i=1, i<boost::num_vertices(g); i++ ){
+
+  for(edgePair= edges(g); edgePair.first != edgePair.second; ++edgePair.first){
+     // get source and destination relax source and destination 
+
+  
+}
 
 }
