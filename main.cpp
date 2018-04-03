@@ -17,9 +17,6 @@
 #include <boost/graph/adjacency_list.hpp>
 
 #include "maze.hpp"
-#include "heapV.h"
-#include "matrix.h"
-#include "d_except.h"
 
 using namespace boost;
 using namespace std;
