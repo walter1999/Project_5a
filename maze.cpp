@@ -16,6 +16,10 @@
 #include <stack>
 #include "d_except.h"
 #include "matrix.h"
+#include "heapV.h"
+
+
+
 maze::maze(ifstream &fin)
 // Initializes a maze by reading values from fin.  Assumes that the
 // number of rows and columns indicated in the file are correct.
@@ -412,18 +416,47 @@ void maze::initializeGraph(Graph &g, Graph::vertex_descriptor &start, Graph::ver
    }
 }
 bool maze::dijkstra(Graph &g, Graph::vertex_descriptor s){
-
+    std::pair<vertex_iter, vertex_iter> vertexPair;
+    for(vertexPair=vertices(g); vertexPair.first != vertexPair.second; ++vertexPair.first){
+        g[*vertexPair.first].weight=9999999;
+        g[*vertexPair.first].predecessor= NIL;
+        
+    }
+    g[s].weight= 0;// sets weight of the source to zero
+    heapV<Graph::vertex_descriptor, Graph> h;
+    std::pair<vertex_iter, vertex_iter> vertexPair;
+    
+    std::pair<adjacency_iterator, adjacency_iterato> neighbors;
+    
+    for(vertexPair=vertices(g); vertexPair.first != vertexPair.second; ++vertexPair.first){
+        h.minHeapInsert(*vertexPair.first,g);
+        
+    }
+    while(!h.empty()){
+        Graph::vertex_descriptor u= h.extractMinheapMinimum(g);
+        s.push_back(u);
+        
+        neighbors= boost::adjacent_vertices(vertex(u,g),g);
+        for(; neighbors.first != neighbors.second; neighbors++.firts){
+            relax(g,u,*neighbors.first);
+            h.minHeapDecreaseKey(h.getIndex(*neighbors.first),g);
+            
+            
+        }
+    }
 }
 bool maze::bellmanFord(Graph &g, Graph::vertex_descriptor s){
 // initilaize distances to infinity except for the source 
-typedef boost::graph_traits<Graph>::vertex_iterator vertex_iter;
+
 std::pair<vertex_iter, vertex_iter> vertexPair;
-for(vertexPair=vertices(g); vertexPair.first != vertexPair.second; ++vertexPair.first)
-  g[*vertexPair.first].weight=9999999;
-  g[*vertexPair.first].predecessor= NIL; 
+for(vertexPair=vertices(g); vertexPair.first != vertexPair.second; ++vertexPair.first){
+    g[*vertexPair.first].weight=9999999;
+    g[*vertexPair.first].predecessor= NIL;
   
 }
 g[s].weight= 0;// sets weight of the source to zero
+    
+    
 
 // loop from 1 to int get vertice-1
 typedef boost:: graph_traits<Graph>::edge_iterator edge_iter;
@@ -431,9 +464,58 @@ typedef boost:: graph_traits<Graph>::edge_iterator edge_iter;
 for(int i=1, i<boost::num_vertices(g); i++ ){
 
   for(edgePair= edges(g); edgePair.first != edgePair.second; ++edgePair.first){
-     // get source and destination relax source and destination 
-
-  
+     // get source and destination relax source and destination
+      
+      
+      relax(g,source(*edgePair.first,g), target(*edgePair.first,g));
 }
+}
+std::pair<edge_iter, edge_iter> Edge;
+    Graph::vertex_descriptor v;
+    Graph::vertex_descriptor u;
+    for(Edge= edges(g); Edge.first != Edge.second; ++Edge.first){
+        
+        u=source(*Edge.first,g);
+        v=target(*Edge.first,g);
+        if( g[v].weight > g[u].weight + g[*Edge].weight){
+            
+            return false;
+            
+        }
+    }
+    return true;
+}
+
+void maze::DPrint(Graph &g){
+    
+    Graph::vertex_descriptor temp;
+    
+    int weight;
+    int pred;
+    
+    for(int i=0, i<boost::num_vertices(g); i++ ){
+        temp = s[i];
+        
+        pred = temp.predecessor;
+        weight = temp.weight;
+        
+        std::cout<<"Predecessor: "<<pred<<"   Weight: "<<weight<<std::endl;
+        
+    }
+    
+}
+
+
+void maze::BFPrint(Graph &g){
+    int weight;
+    int pred;
+    
+    for(vertexPair=vertices(g); vertexPair.first != vertexPair.second; ++vertexPair.first){
+        weight = g[*vertexPair.first].weight;
+        pred = g[*vertexPair.first].predecessor;
+        
+        std::cout<<"Predecessor: "<<pred<<"   Weight: "<<weight<<std::endl;
+        
+    }
 
 }

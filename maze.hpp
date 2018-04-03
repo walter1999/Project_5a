@@ -23,6 +23,7 @@
 
 #include "d_except.h"
 #include "matrix.h"
+#include "heapV.h"
 
 #define LargeValue 99999999
 
@@ -44,6 +45,8 @@ public:
                    Graph g);
     void relax(Graph &g, Grpah::vertex_descriptor u, vertex_descriptor v);
     void dijkstra(Graph &g, Graph::vertex_descriptor s);
+    void DPrint();
+    void maze::BFPrint(Graph &g);
     int numRows(){return rows;};
     int numCols(){return cols;};
 
@@ -55,7 +58,7 @@ private:
     stack<Graph::vertex_descriptor> moves;
     stack<Graph:: vertex_descriptor> BFshortestPath;
     queue<Graph::vertex_descriptor> BFS;
-
+    stack<Graph::vertex_descriptor> s;
     matrix<bool> value;
     matrix<Graph:: vertex_descriptor> graphM;//  matrix for vertex descriptors
 };

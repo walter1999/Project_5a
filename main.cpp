@@ -17,6 +17,9 @@
 #include <boost/graph/adjacency_list.hpp>
 
 #include "maze.hpp"
+#include "heapV.h"
+#include "matrix.h"
+#include "d_except.h"
 
 using namespace boost;
 using namespace std;
@@ -24,6 +27,7 @@ using namespace std;
 struct VertexProperties;
 struct EdgeProperties;
 
+typedef boost::graph_traits<Graph>::vertex_iterator vertex_iter;
 typedef adjacency_list<vecS, vecS, bidirectionalS, VertexProperties, EdgeProperties> Graph;
 
 struct VertexProperties // properties associated with a node
