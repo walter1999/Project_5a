@@ -477,7 +477,7 @@ std::pair<edge_iter, edge_iter> Edge;
         
         u=source(*Edge.first,g);
         v=target(*Edge.first,g);
-        if( g[v].weight > g[u].weight + g[*Edge].weight){// negative cycle dectected
+        if( g[v].weight > g[u].weight + g[*Edge.first].weight){// negative cycle dectected
             
             return false;
             
