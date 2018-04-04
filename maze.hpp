@@ -20,13 +20,16 @@
 #include <queue>
 #include <vector>
 #include <stack>
+#include <boost/graph/adjacency_list.hpp>
 
 #include "d_except.h"
 #include "matrix.h"
+#include "main.cpp"
 
 #define LargeValue 99999999
 
 using namespace std;
+
 
 class maze
 {
@@ -42,7 +45,7 @@ public:
     void printPath(Graph::vertex_descriptor end,
                    stack<Graph::vertex_descriptor> &s,
                    Graph g);
-    void relax(Graph &g, Grpah::vertex_descriptor u, vertex_descriptor v);
+    void relax(Graph &g, Grpah::vertex_descriptor u, Graph::vertex_descriptor v);
     bool dijkstra(Graph &g, Graph::vertex_descriptor s);
     bool bellmanFord(Graph &g, vertex descriptor s);
     int numRows(){return rows;};

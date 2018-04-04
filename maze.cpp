@@ -17,6 +17,7 @@
 #include "d_except.h"
 #include "matrix.h"
 #include "heapV.h"
+#include "main.cpp"
 
 
 
@@ -89,8 +90,8 @@ void maze::mapMazeToGraph(Graph &g){
 //iterate through the matrix of the maze and checks if its true or false
 Graph:: vertex_descriptor Dr;// creates a descriptor for a node
 graphM.resize(rows,cols);
-for(r = 0; r<rows;r++){
-  for(c = 0; c<cols ; c++){
+for(int r = 0; r<rows;r++){
+  for(int c = 0; c<cols ; c++){
     if(isLegal(r,c)){
       Dr= add_vertex(g);// adds node
       g[Dr].cell = pair<int,int>(r,c);// adds r,c coordinate to the node
@@ -104,8 +105,8 @@ for(r = 0; r<rows;r++){
 
   }
 
-  for(r = 0; r<rows;r++){// traverse matrix
-    for(c = 0; c<cols ; c++){
+  for(int r = 0; r<rows;r++){// traverse matrix
+    for(int c = 0; c<cols ; c++){
         if(isLegal(r,c)){
           Dr= graphM[r][c];
           //check top
@@ -258,7 +259,7 @@ void maze::findShortestPathBFS(Graph &g){
       Dr= DFS.dequeue();
       if(!g[Dr].visited){
         //visit(DR)
-        g[Dr].visted= true;
+        g[Dr].visited= true;
       //  g[Dr].predecessor=
         std::pair<adjacency_iterator, adjacency_iterator> neighbors =
         boost::adjacent_vertices(vertex(Dr,g), g);
@@ -387,7 +388,7 @@ void maze::relax(Graph &g, Graph::vertex_descriptor u, Graph::vertex_descriptor 
   std::pair<Graph::edge_descriptor, bool> retrievedEdge = boost::edge(u, v, g);
   if(g[v].weight > g[u].weight + g[retrieveEdge.first].weight ){
     g[v].weight=g[u].weight + g[retrieveEdge.first].weight;
-    g[v].predecessor= u;
+    g[v].pred= u;
   }
 }
 void maze::initializeGraph(Graph &g, Graph::vertex_descriptor &start, Graph::vertex_descriptor &end, ifstream &fin){
@@ -419,7 +420,7 @@ bool maze::dijkstra(Graph &g, Graph::vertex_descriptor s){
     std::pair<vertex_iter, vertex_iter> vertexPair;// intial condition to set up all the nodes distnace to infinity
     for(vertexPair=vertices(g); vertexPair.first != vertexPair.second; ++vertexPair.first){
         g[*vertexPair.first].weight=9999999;
-        g[*vertexPair.first].predecessor= NIL;
+        g[*vertexPair.first].pred= NIL;
         
     }
     g[s].weight= 0;// sets weight of the source to zero
@@ -493,10 +494,10 @@ void maze::DPrint(Graph &g){
     int weight;
     int pred;
     
-    for(int i=0, i<boost::num_vertices(g); i++ ){
+    for(int i=0; i<boost::num_vertices(g); i++ ){
         temp = s[i];
         
-        pred = temp.predecessor;
+        pred = temp.pred;
         weight = temp.weight;
         
         std::cout<<"Predecessor: "<<pred<<"   Weight: "<<weight<<std::endl;
@@ -513,7 +514,7 @@ void maze::BFPrint(Graph &g){
     
     for(vertexPair=vertices(g); vertexPair.first != vertexPair.second; ++vertexPair.first){
         weight = g[*vertexPair.first].weight;
-        pred = g[*vertexPair.first].predecessor;
+        pred = g[*vertexPair.first].pred;
         
         std::cout<<"Predecessor: "<<pred<<"   Weight: "<<weight<<std::endl;
         
