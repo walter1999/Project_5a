@@ -412,11 +412,11 @@ void maze::initializeGraph(Graph &g, Graph::vertex_descriptor &start, Graph::ver
    while (fin.peek() != '.')
    {
       fin >> i >> j >> e.weight;
-      add_edge(i,j,e,g);
+      Graph::add_edge(i,j,e,g);
    }
 }
 bool maze::dijkstra(Graph &g, Graph::vertex_descriptor s){
-    std::pair<vertex_iter, vertex_iter> vertexPair;
+    std::pair<vertex_iter, vertex_iter> vertexPair;// intial condition to set up all the nodes distnace to infinity
     for(vertexPair=vertices(g); vertexPair.first != vertexPair.second; ++vertexPair.first){
         g[*vertexPair.first].weight=9999999;
         g[*vertexPair.first].predecessor= NIL;
@@ -428,16 +428,16 @@ bool maze::dijkstra(Graph &g, Graph::vertex_descriptor s){
     
     std::pair<adjacency_iterator, adjacency_iterato> neighbors;
     
-    for(vertexPair=vertices(g); vertexPair.first != vertexPair.second; ++vertexPair.first){
+    for(vertexPair=vertices(g); vertexPair.first != vertexPair.second; ++vertexPair.first){// go through all the nodes and insert them in the heap
         h.minHeapInsert(*vertexPair.first,g);
         
     }
     while(!h.empty()){
-        Graph::vertex_descriptor u= h.extractMinheapMinimum(g);
+        Graph::vertex_descriptor u= h.extractMinheapMinimum(g);// extract min value
         s.push_back(u);
         
         neighbors= boost::adjacent_vertices(vertex(u,g),g);
-        for(; neighbors.first != neighbors.second; neighbors++.firts){
+        for(; neighbors.first != neighbors.second; neighbors++.firts){// iterate over the the neighbors 
             relax(g,u,*neighbors.first);
             h.minHeapDecreaseKey(h.getIndex(*neighbors.first),g);
             
@@ -473,11 +473,11 @@ for(int i=1, i<boost::num_vertices(g); i++ ){
 std::pair<edge_iter, edge_iter> Edge;
     Graph::vertex_descriptor v;
     Graph::vertex_descriptor u;
-    for(Edge= edges(g); Edge.first != Edge.second; ++Edge.first){
+    for(Edge= edges(g); Edge.first != Edge.second; ++Edge.first){// check for negative cycles
         
         u=source(*Edge.first,g);
         v=target(*Edge.first,g);
-        if( g[v].weight > g[u].weight + g[*Edge].weight){
+        if( g[v].weight > g[u].weight + g[*Edge].weight){// negative cycle dectected
             
             return false;
             
@@ -487,7 +487,7 @@ std::pair<edge_iter, edge_iter> Edge;
 }
 
 void maze::DPrint(Graph &g){
-    
+    // print graphs 
     Graph::vertex_descriptor temp;
     
     int weight;
@@ -507,6 +507,7 @@ void maze::DPrint(Graph &g){
 
 
 void maze::BFPrint(Graph &g){
+    //prints graphs
     int weight;
     int pred;
     

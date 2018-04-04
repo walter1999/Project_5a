@@ -17,6 +17,7 @@
 #include <boost/graph/adjacency_list.hpp>
 
 #include "maze.hpp"
+#include "heapV.h"
 
 using namespace boost;
 using namespace std;
@@ -24,8 +25,12 @@ using namespace std;
 struct VertexProperties;
 struct EdgeProperties;
 
-typedef boost::graph_traits<Graph>::vertex_iterator vertex_iter;
 typedef adjacency_list<vecS, vecS, bidirectionalS, VertexProperties, EdgeProperties> Graph;
+typedef Graph::vertex_descriptor Vertex;
+typedef Graph::edge_descriptor Edge;
+typedef Graph::edge_iterator edge_iterator;
+typedef Graph::vertex_iterator vertex_iterator;
+typedef Graph::adjacency_iterator adj_iterator;
 
 struct VertexProperties // properties associated with a node
 {
@@ -83,5 +88,6 @@ int main()
         m.mapMazeToGraph(g);// fucntion call
 
         cout << g << endl;// calls overloaded operator
+        
     }
 }
